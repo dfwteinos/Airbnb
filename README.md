@@ -65,7 +65,7 @@ We asked to implement a fully functional Web Application that supports all the f
 
 ### Further informations
 
-This project contains also an explaination of this project and how to be implemented in greek.
+This project contains also an explaination of this project and how to be implemented in greek.  
 For this big project, I've collaborated with the fellow partner: [Mery Fanou](https://github.com/meryfanou)
 
 *This project is part of the course: Technologies of Internet Applications , Spring of 2020. University of Athens, DiT.*
