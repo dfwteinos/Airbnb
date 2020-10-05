@@ -3,7 +3,7 @@
 A simple yet but a functional Web Application, using NodeJS, ExpressJS MongoDB and EJS Templates.  
 </br>
 
-                                            Landing page of the Website
+                                        Landing page of the Website
 
 ![alt text](https://github.com/dfwteinos/Airbnb/blob/main/imgs/Airbnb1.png)  
 </br>
