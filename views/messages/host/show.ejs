@@ -1,0 +1,69 @@
+<%- include("../../partials/header") %>
+
+<div class="mail_bg_img" style="background-image: url('https://images.unsplash.com/photo-1580127645995-d43fe9598711?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'); margin-top:-1.52%;">
+	<br><br><p style="margin-top:-1.52%">
+		<a href="/messages/host/<%= currentUser._id %>/<%= apartment %>"
+		   style="font-size:130%; color:white; margin-left:1%; text-decoration:none;">
+			<strong>&lt; Mail</strong>
+		</a>
+	</p><br>
+
+	<div class="container">
+		<div class="thumbnail"
+			 style="width:70%; margin-left:15%; margin-right:15%; margin-top:5%;
+					background-color:rgba(255,255,255,0.6); border:none;">
+			<% if(currentUser._id.equals(message.recipient._id)){ %>
+				<h4 class="pull-right" style="margin-right:3%; margin-top:3%;">
+					<img src="<%= message.sender.picture.url %>"
+						 style="border-radius:50%; width:75px; height:75px; object-fit:cover;">
+				</h4>
+				<h4 style="color:rgba(0,0,0,0.9); margin-left:2%;">
+					<strong>From:</strong> <%= message.sender.username %>
+				</h4>
+			<% }else{ %>
+				<h4 class="pull-right" style="margin-right:3%; margin-top:3%;">
+					<img src="<%= message.recipient.picture.url %>"
+						 style="border-radius:50%; width:75px; height:75px; object-fit:cover;">
+				</h4>
+				<h4 style="color:rgba(0,0,0,0.9); margin-left:2%;">
+					<strong>To:</strong> <%= message.recipient.username %>
+				</h4>
+			<% } %>
+			<h4 style="color:rgba(0,0,0,0.9); margin-left:2%;">
+				<strong>Date:</strong> <%= message.date %>
+			</h4>
+			<h4 style="color:rgba(0,0,0,0.9); margin-left:2%;">
+				<strong>Subject:</strong> <%= message.subject %>
+			</h4><br>
+			<p style="font-size:120%; color:rgba(0,0,0,0.9); margin-left:2%; margin-right:2%;">
+				<%= message.content %></p><br>
+			<h4 class="pull-right" style="margin-top:-3%; font-size:98%;">
+				<form method="POST" onsubmit="return confirmDelete()"
+					action="/messages/<%=currentUser._id%>/<%=apartment%>/<%=message._id%>?_method=DELETE">
+					<button style="border:none; background-color:transparent; color:firebrick;">
+						&nbsp;<i class="fas fa-trash-alt"></i><strong> Delete</strong></button>
+				</form>
+
+				<script>
+
+					function confirmDelete(){
+						var question = "Are you sure you want to delete this message?";
+						var confirmation = confirm(question);
+						return confirmation;
+					}
+
+				</script>
+			</h4>
+			<h4 class="pull-right" style="margin-top:-3%; font-size:98%;">
+				<% if(message.recipient._id.equals(currentUser._id)){
+					var recipient = JSON.stringify(message.sender); %>
+					<a href="/messages/<%=currentUser._id%>/<%=apartment%>/new?recipient=<%=recipient%>"
+					   style="color:seagreen; text-decoration:none;">
+						<i class="fas fa-paper-plane"></i><strong> Reply</strong>
+					</a>
+				<% } %>
+			</h4>
+		</div>
+	</div>
+</div>
+<%- include("../../partials/footer") %>

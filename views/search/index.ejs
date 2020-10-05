@@ -1,0 +1,378 @@
+<%- include("../partials/header") %>
+
+<div id="filters" class="overlay">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<div class="overlay-content">
+		<h3 style="color:white;">Filters</h3>
+		<svg height="120" width="210" style="position:relative; top:-5px;">
+			<line x1="0" y1="0" x2="240" y2="0" style="stroke:rgb(255,255,255,0.5);stroke-width:2;" />
+		</svg>
+
+		<% if(typeof initial != 'undefined'){
+			var str_apartments = JSON.stringify(initial);
+		}else{
+			var str_apartments = JSON.stringify(apartments);
+		} %>
+
+		<form action="/search/filters?str_apartments=<%=str_apartments%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&str_location=<%=str_location%>&max_price=<%=max_price%>"
+			  method="POST">
+			<p><strong>Room Type</strong>
+				<a onclick="browseRoomTypes()"
+					style="transform:rotate(90deg); display:inline-block; position:relative; left:5px; top:2px;">&nbsp;&#10095;</a>
+			</p>
+			<div id="room-types" style="display:none;">
+				<svg height="30" width="210" style="position:relative; top:-50px; opacity:0.7;">
+					<line x1="20" y1="0" x2="185" y2="0"
+						  style="stroke:rgb(255,255,255,0.5);stroke-width:2;" />
+				</svg>
+				<div class="form-group">
+					<p>Private Room
+						<input type="checkbox" value="Private Room" name="room_type"
+						<% // If the user has set any filters
+						if(typeof filters != 'undefined'){
+							// If Private Room type was selected
+							if((typeof filters.room_type == "string" &&
+									filters.room_type == "Private Room") ||
+								(typeof filters.room_type == "object" &&
+									filters.room_type.includes("Private Room"))){ %>
+								checked
+							<% }
+						} %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Shared Room
+						<input type="checkbox" value="Shared Room" name="room_type"
+						<% // If the user has set any filters
+						if(typeof filters != 'undefined'){
+							// If Shared Room type was selected
+							if((typeof filters.room_type == "string" &&
+									filters.room_type == "Shared Room") ||
+								(typeof filters.room_type == "object" &&
+									filters.room_type.includes("Shared Room"))){ %>
+								checked
+							<% }
+						} %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Apartment
+						<input type="checkbox" value="Apartment" name="room_type"
+						<% // If the user has set any filters
+						if(typeof filters != 'undefined'){
+							// If Apartment type was selected
+							if((typeof filters.room_type == "string" &&
+									filters.room_type == "Apartment") ||
+								(typeof filters.room_type == "object" &&
+									filters.room_type.includes("Apartment"))){ %>
+								checked
+							<% }
+						} %>>
+					</p>
+				</div>
+				<svg height="20" width="210" style="position:relative; top:-50px; opacity:0.7;">
+					<line x1="20" y1="0" x2="185" y2="0"
+						  style="stroke:rgb(255,255,255,0.5);stroke-width:2;" />
+				</svg>
+			</div>
+
+			<br><p><strong>Maximum Price (per night)</strong>
+					<a onclick="browsePriceRange()"
+						style="transform:rotate(90deg); display:inline-block; position:relative; left:5px; top:2px; transition: 0.2s;">&nbsp;&#10095;</a>
+			</p>
+			<div id="price-range"
+				 style="display:none; width:400px; position:relative; left:200px; top:-35px;">
+				<div class="form-group" style="display:flex; color:#eeeeee;">
+					0.01&euro;&nbsp;&nbsp;
+					<br><input type="range" min="0.01" max="<%= max_price %>" step="0.01" name="max_price"
+						<% // If the user has set any filters
+						if(typeof filters != 'undefined'){ %>
+						   value="<%= filters.max_price %>"
+						<% }else{ %>
+						   value="<%= max_price %>"
+						<% } %> id="rangeBar" oninput="outputUpdate(value)">
+					&nbsp;&nbsp;<%= max_price %>&euro;
+					<output for="rangeBar" id="bubble">
+						<% // If the user has set any filters
+						if(typeof filters != 'undefined'){ %>
+						   <%= filters.max_price %>
+						<% }else{ %>
+						   <%= max_price %>
+						<% } %>
+					</output>
+				</div><br>
+			</div><br>
+
+<script>
+function outputUpdate(value){
+	var output = document.querySelector("#bubble"),
+		rangeBar = document.getElementById("rangeBar");
+
+	var range = rangeBar.max - rangeBar.min;
+
+	var position = ((value-rangeBar.min) / range) * 150;
+	var positionOffset = Math.round(position);
+
+	output.value = value;
+	output.style.left = position + positionOffset - 350 + 'px';
+}
+</script>
+
+			<p><strong>Facilities</strong>
+					<a onclick="browseFacilities()"
+						style="transform:rotate(90deg); display:inline-block; position:relative; left:5px; top:2px;">&nbsp;&#10095;</a>
+			</p>
+			<div id="facilities" style="display:none;">
+				<svg height="30" width="210" style="position:relative; top:-50px; opacity:0.7;">
+					<line x1="20" y1="0" x2="185" y2="0"
+						  style="stroke:rgb(255,255,255,0.5);stroke-width:2;" />
+				</svg>
+				<div class="form-group">
+					<p>Wifi
+						<input type="checkbox" value="True" name="facilities[wifi]"
+							<% // If the user has set any filters and wifi was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("wifi")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Air Conditioning
+						<input type="checkbox" value="True" name="facilities[air_condition]"
+							<% // If the user has set any filters and air conditioning was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("air_condition")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Heating
+						<input type="checkbox" value="True" name="facilities[heating]"
+							<% // If the user has set any filters and heating was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("heating")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Kitchen
+						<input type="checkbox" value="True" name="facilities[kitchen]"
+							<% // If the user has set any filters and kitchen was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("kitchen")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>TV
+						<input type="checkbox" value="True" name="facilities[tv]"
+							<% // If the user has set any filters and tv was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("tv")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Parking
+						<input type="checkbox" value="True" name="facilities[parking]"
+							<% // If the user has set any filters and parking was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("parking")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<div class="form-group">
+					<p>Elevator
+						<input type="checkbox" value="True" name="facilities[elevator]"
+							<% // If the user has set any filters and elevator was selected
+							if(typeof filters!='undefined' && typeof filters.facilities.values!='undefined'
+							   && filters.facilities.values.includes("elevator")){ %>
+								checked
+							<% } %>>
+					</p>
+				</div>
+				<svg height="20" width="210" style="position:relative; top:-50px; opacity:0.7;">
+					<line x1="20" y1="0" x2="185" y2="0"
+						  style="stroke:rgb(255,255,255,0.5);stroke-width:2;" />
+				</svg>
+			</div>
+			<button class="outline-button">Add Filters</button><br><br><br>
+		</form>
+  </div>
+</div>
+
+<script>
+function browseRoomTypes(){
+	var menu = document.getElementById("room-types");
+
+	if(menu.style.display === "none"){
+		menu.style.display = "block";
+	}else if(menu.style.display == "block"){
+		menu.style.display = "none";
+	}
+}
+
+function browsePriceRange(){
+	var menu = document.getElementById("price-range");
+
+	if(menu.style.display === "none"){
+		menu.style.display = "block";
+	}else if(menu.style.display == "block"){
+		menu.style.display = "none";
+	}
+}
+
+function browseFacilities(){
+	var menu = document.getElementById("facilities");
+
+	if(menu.style.display === "none"){
+		menu.style.display = "block";
+	}else if(menu.style.display == "block"){
+		menu.style.display = "none";
+	}
+}
+</script>
+
+<div class="jumbotron" style="position:relative; left:-10px; top:-20px; height:30px; width:101%; background-image:url('https://images.unsplash.com/photo-1502920514313-52581002a659?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'); background-size: cover; background-position: center center;">
+	<h2 align="center" style="color:white; position:relative; top:-40px;">
+		<div style="background-color:rgba(255,255,255,0.4); padding:6px; position:relative; top:-5px;">
+			<% var location = JSON.parse(str_location); %>
+			<strong style="font-family:URW Chancery L, cursive; font-size:125%;">
+				Available places from <%= check_in %> to <%= check_out %> in
+				<% if(location.area != null){ %>
+					<%= location.area %>, 
+				<% }else if(location.region != null){ %>
+					<%= location.region %>, 
+				<% } %>
+					<%= location.country %>
+			</strong>
+		</div>
+		<p style="padding:1px;"></p>
+		<div style="background-color:maroon; padding:1px;"></div>
+	</h2>
+</div>
+
+<span style="font-size:20px; cursor:pointer; padding:5px; position:relative; top:-15px;"
+	  onclick="openNav()">&#9776; filters</span><br><br>
+
+<script>
+function openNav() {
+  document.getElementById("filters").style.width = "60%";
+}
+
+function closeNav() {
+  document.getElementById("filters").style.width = "0%";
+}
+
+</script>
+
+<div class="container">
+	<div class="row text-center">
+		<div class="pagination">
+			<% var str_all = JSON.stringify(all_apartments);
+			   if(pageNum > 1){ %>
+				<a href="/search/page/<%= Number(pageNum) - 1 %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&max_price=<%=max_price%>&str_location=<%=str_location%>">&laquo;</a>
+			<% } %>
+
+			<% for(var i=1; i<=(all_apartments.length / results_per_page); i++){ %>
+				<a href="/search/page/<%= i %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&str_location=<%=str_location%>&max_price=<%=max_price%>"
+				<% if(i == pageNum){ %>
+					class="active"
+				<% } %>
+				><%= i %></a>
+			<% }
+
+			if(pageNum < (all_apartments.length / results_per_page)){ %>
+				<a href="/search/page/<%= Number(pageNum) + 1 %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&str_location=<%=str_location%>&max_price=<%=max_price%>">&raquo;</a>
+			<% } %>
+		</div>
+	</div>
+
+	<div class="row text-center" style="display: flex; flex-wrap: wrap; justify-content:center;">
+		<% apartments.forEach(function(apartment){ %>
+		<div style="padding: 40px;">
+			<div class="thumbnail">
+				<a href="/search/<%= apartment._id %>?num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>">
+					<img src="<%= apartment.main_image.url %>"
+						 style="object-fit:cover; width:350px; height:350px;">
+				</a>
+				<div class="caption" style="padding:5px;">
+					<strong>
+						<a href="/search/<%=apartment._id%>?num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>"
+							style="font-size:170%; font-family:URW Chancery L, cursive; color:firebrick">
+								<%= apartment.name %></a>
+					</strong><br>
+					<h4 style="font-size:150%; font-family:URW Chancery L, cursive;">
+						<% var average=0;
+							for(var review of apartment.reviews){
+								average += review.rating;
+							}
+
+							average = average/apartment.reviews.length;
+
+							for(var i=1; i<10; i+=2){
+								if((average % 2) == 0){
+									if( i < average ) { %>
+										<span class="fa fa-star" style="font-size:90%; color:orange;">
+										</span>
+									<% }else { %>
+										<span class="far fa-star" style="font-size:90%; color:orange;">
+										</span>
+									<%	}
+								}else{
+									if( i == average) {%>
+										<span class="fa fa-star-half-o"
+											  style="font-size:90%; color:orange;">
+										</span>
+									<% }else if(i < average){ %>	
+										<span class="fa fa-star" style="font-size:90%; color:orange;">
+										</span>
+									<%	}else{%>
+										<span class="far fa-star" style="font-size:90%; color:orange;">
+										</span>
+									<%	}
+								}
+						}  %><span style="font-size:90%; color:orange"><strong>
+							(<%=apartment.reviews.length%>)</strong></span>
+						&nbsp;&nbsp;&euro;<%= apartment.price_min %>/night<br>
+						<% if(apartment.place.beds == 1){ %>
+							<%= apartment.place.room_type %>, <%= apartment.place.beds %> bed
+						<% }else{ %>
+							<%= apartment.place.room_type %>, <%= apartment.place.beds %> beds
+						<% } %>
+					</h4>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+	</div>
+
+	<div class="row text-center">
+		<div class="pagination">
+			<% var str_all = JSON.stringify(all_apartments);
+			   if(pageNum > 1){ %>
+				<a href="/search/page/<%= Number(pageNum) - 1 %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&max_price=<%=max_price%>&str_location=<%=str_location%>">&laquo;</a>
+			<% } %>
+
+			<% for(var i=1; i<=(all_apartments.length / results_per_page); i++){ %>
+				<a href="/search/page/<%= i %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&str_location=<%=str_location%>&max_price=<%=max_price%>"
+				<% if(i == pageNum){ %>
+					class="active"
+				<% } %>
+				><%= i %></a>
+			<% }
+
+			if(pageNum < (all_apartments.length / results_per_page)){ %>
+				<a href="/search/page/<%= Number(pageNum) + 1 %>?apartments=<%=str_all%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>&str_location=<%=str_location%>&max_price=<%=max_price%>">&raquo;</a>
+			<% } %>
+		</div>
+	</div>
+</div>
+
+<%- include("../partials/footer") %>

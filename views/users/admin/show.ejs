@@ -1,0 +1,71 @@
+<%- include("../../partials/header") %>
+
+<style>
+	#info a {
+		color: gold;
+		opacity: 1;
+	}
+	#info a:hover {
+		opacity: 0.8;
+	}
+
+	#json a{
+		color: darkcyan;
+		opacity: 1;
+	}
+
+	#json a:hover {
+		opacity:0.8;
+	}
+
+	#xml a{
+		color: crimson;
+		opacity: 1;
+	}
+
+	#xml a:hover {
+		opacity:0.8;
+	}
+</style>
+
+<div class="mail_bg_img" style="background-image: url('https://thumbs.dreamstime.com/z/admin-message-working-office-table-background-93379017.jpg'); margin-top:-1.6%;">
+	<h4 class="pull-right" id="info">
+		<a href="/users/<%= currentUser._id %>/admin/users_list"
+					style="font-size:117%;">
+			<svg width="175" height="175" style="margin-right:-4%;">
+  				<circle cx="100" cy="100" r="70" stroke="gold" stroke-width="6"
+						stroke-dasharray="0.3,37" stroke-linecap="round" fill="transparent" />
+				<p class="pull-right" style="margin-top:-32%; margin-right:44%;">
+						<strong>Users Info</strong>
+				</p>
+			</svg>
+		</a>
+	</h4>
+
+	<h4 class="pull-left" id="json">
+		<a href="/users/<%= currentUser._id %>/admin/extract_to_json"
+					style="font-size:117%;">
+			<svg width="180" height="180" style="margin-left:20%; margin-top:20%;">
+  				<circle cx="100" cy="100" r="75" stroke="darkcyan" stroke-width="6" style="opacity:1;"
+						stroke-dasharray="0.3,40" stroke-linecap="round" fill="transparent" />
+				<p class="pull-right" style="margin-top:-35%; margin-right:25%;">
+					<strong>Extract Data</strong><br><strong>&nbsp;&nbsp;&nbsp;as JSON</strong>
+				</p>
+			</svg>
+		</a>
+	</h4>
+
+	<h4 class="align-center" id="xml">
+		<a href="/users/<%= currentUser._id %>/admin/extract_to_xml"
+					style="font-size:117%; text-decoration:none;">
+			<svg width="180" height="180" style="margin-left:-10%; margin-top:30%;">
+  				<circle cx="100" cy="100" r="75" stroke="crimson" stroke-width="6" style="opacity:1;"
+						stroke-dasharray="0.3,40" stroke-linecap="round" fill="transparent" />
+				<p class="pull-left" style="margin-top:35%;">
+					<strong>Extract Data<br>&nbsp;&nbsp;&nbsp;as XML</strong>
+				</p>
+			</svg>
+		</a>
+	</h4>
+</div>
+<%- include("../../partials/footer") %>

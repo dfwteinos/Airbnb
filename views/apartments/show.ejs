@@ -1,0 +1,488 @@
+<%- include("../partials/header") %>
+
+<p style="font-size:115%;">
+	<a href="/users/<%=currentUser._id%>/host" class="btn btn-primary btn-group-toggle btn-lg" 
+	   style="margin-left:20px"role="button" aria-pressed="true">Host Page <i class="fas fa-home"></i>
+	</a>
+	<a href="/messages/host/<%=currentUser._id%>/<%=apartment._id%>"
+		class="btn btn-primary btn-group-toggle btn-lg" style="margin-left:91%; margin-top: -70px">
+		Messages <i class="far fa-envelope"></i>
+	</a>
+</p><br><br>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="thumbnail" style="border:none;">
+				<img class="img-responsive" src="<%= apartment.main_image.url %>"
+					 style="object-fit:cover; width:auto; height:450px; border-radius:8px;">
+				<div class="caption-full">
+					<em style="font-size:160%; margin-left:20%; margin-right:20%;">
+						<a> <%= apartment.name %> </a>
+					</em>
+
+					<h4 class="pull-right"
+						style="position:relative; margin-right:22%; font-size:145%; color:seagreen;">
+						<strong>&euro;<%= apartment.price_min %>/night</strong>
+					</h4>
+
+					<h4 class="pull-right" style="margin-right: -9%; margin-top:4%;">
+						<% if(currentUser && apartment.host._id.equals(currentUser._id)){ %>
+							<a class="btn btn-sm btn-warning" href="/apartments/<%= apartment._id %>/edit" 
+							   style="font-size: 100%; width:100%">	Edit
+							</a>
+					</h4>
+
+					<h4 class="pull-right" style="position:relative; margin-right:-3%; margin-top:4%;">
+							<form action="/apartments/<%= apartment._id %>?_method=DELETE" method="POST"
+								  onsubmit="return confirmDeletion()">
+								<button class="btn btn-sm btn-danger" style="font-size: 100%; ">
+									Delete
+								</button>
+							</form>
+							<script>
+								function confirmDeletion(){
+									// Ask for confirmation before deleting the apartment
+									var deleteApartment =
+										confirm("Are you sure you want to delete <%=apartment.name%>?");
+
+									return deleteApartment;
+								}
+							</script>
+						<% } %>
+					</h4>
+
+					<h4 style="padding:2px; margin-left:20%; margin-right:20%; color:orange;">
+						<% var average=0;
+						for(var review of apartment.reviews){
+							average += review.rating;
+						}
+
+						average = average/apartment.reviews.length;
+
+						for(var i=1; i<10; i+=2){
+							if((average % 2) == 0){
+								if( i < average ) { %>
+									<span class="fa fa-star"></span>
+								<% }else { %>
+									<span class="far fa-star"></span>
+								<%	}
+							}else{
+								if( i == average) {%>
+									<span class="fa fa-star-half-o"></span>
+								<% }else if(i < average){ %>	
+									<span class="fa fa-star"></span>
+								<%	}else{%>
+									<span class="far fa-star"></span>
+								<%	}
+							}
+						}  %>(<%=apartment.reviews.length%>)
+						<a href="/reviews/apartment/<%=apartment._id%>"
+						   style="text-decoration:none; color:orange"><br>
+							Read Reviews</a>
+					</h4>
+				</div>
+			</div><br><br>
+
+			<div class="thumbnail">
+				<div align="center" class="alert alert-warning" role="alert">
+  					<strong style="font-size:25px">Description</strong>
+				</div>
+				<p style="font-size:135%; padding:10px; text-align:center;">
+					<%= apartment.description %>
+				</p><br>
+
+				<div align="center" class="alert alert-success" role="alert">
+  					<strong style="font-size:25px">General Info</strong>
+				</div>
+
+				<h4 align="center"><li> <strong> Bedrooms: <%= apartment.place.bedrooms %> </strong>
+					<i class="fa fa-bed" aria-hidden="true"></i> </li></h4> 
+				<h4 align="center"><li> <strong> Beds: <%= apartment.place.beds %> </strong>
+					<i class="glyphicon glyphicon-bed"></i></li></h4> 
+				<h4 align="center"><li> <strong> Bathrooms: <%= apartment.place.bathrooms %> </strong>
+					<i class="fa fa-bath" aria-hidden="true"></i></li></h4> 
+				<h4 align="center"><li> <strong> Room Type: <%= apartment.place.room_type %> </strong>
+					<i class="fa fa-home" aria-hidden="true"></i></li></h4> 
+
+				<h4 align="center">
+					<li> <strong> Living Room: 
+						<% if(apartment.place.living_room == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class="fas fa-couch" aria-hidden="true"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Floor Number: <%= apartment.place.floor %> </strong>
+						<i class="fas fa-building" aria-hidden="true"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Area: <%= apartment.place.area %> </strong>
+						<i class="fa fa-area-chart" aria-hidden="true"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li style="max-width:600px; margin-left:23%"> <strong> Availability: 
+						<%	function getToday(){
+							var today = new Date();
+							var dd = String(today.getDate()).padStart(2, '0');
+							var mm = String(today.getMonth() + 1).padStart(2, '0');
+							var yyyy = today.getFullYear();
+							return yyyy + '-' + mm + '-' + dd;
+						}
+
+						var today = getToday();
+						var i = 0, invalid = 0;
+						if(apartment.availability.length == 0){ %>
+							No longer available
+						<% }else{
+							apartment.availability.forEach(function(dates){
+								if(dates.to.valueOf() < today.valueOf()){
+									invalid += 1;
+								}else{
+									if(i > 0){ %>
+										, 
+									<% }
+									if(dates.from.valueOf() != dates.to.valueOf()){
+										if(dates.from.valueOf() < today.valueOf()){ %>
+											<%= today %> -
+										<% }else{ %>
+											<%= dates.from %> -
+										<% };
+									} %>
+									<%= dates.to %>
+								<% };
+								i += 1;
+							});
+							if(invalid == apartment.availability.length){ %>
+								No longer available
+							<% }
+						} %>
+						</strong><i class="far fa-calendar-alt"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Minimum Renting Days: <%= apartment.renting_rules.rent_days_min %>
+						</strong>
+						<i class="far fa-calendar-alt"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Maximum Number of Guests: <%= apartment.capacity %>
+						</strong>
+						<i class="fas fa-user-friends"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Extra Charge per Guest: <%= apartment.extra_charge_per_guest %>&euro;
+						</strong>
+					</li>
+				</h4><br>
+
+				<div align="center" class="alert alert-danger" role="alert">
+  					<strong style="font-size:25px">Renting Rules</strong>
+				</div>
+
+				<h4 align="center">
+					<% if(apartment.renting_rules.smoking == "False" ){ %>
+						<li> <strong> Smoking: No </strong>
+						<i class='fas fa-smoking-ban'></i>
+					<% } else { %>
+						<li> <strong> Smoking: Yes </strong>
+						<i class='fas fa-smoking'></i>
+					<% } %>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Pets: 
+						<% if(apartment.renting_rules.pets == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class='fas fa-dog'></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Events: 
+						<% if(apartment.renting_rules.events == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class="fas fa-glass-martini-alt" aria-hidden="true"></i>
+					</li>
+				</h4><br>
+
+				<div align="center" class="alert alert-info" role="alert">
+  				<strong style="font-size:25px">Facilities</strong>
+				</div>
+
+				<h4 align="center">
+					<li> <strong> WiFi: 
+						<% if(apartment.facilities.wifi == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class="fas fa-wifi"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Air Conditioning: 
+						<% if(apartment.facilities.air_conditioning == "False"){ %>
+							No
+						<%  }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class='far fa-snowflake'></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Heating: 
+						<% if(apartment.facilities.heating == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class='fas fa-temperature-high'></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Kitchen: 
+						<% if(apartment.facilities.kitchen == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class='fas fa-utensils'></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> TV: 
+						<% if(apartment.facilities.tv == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class='fas fa-tv'></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Parking: 
+						<% if(apartment.facilities.parking == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class="fas fa-car" aria-hidden="true"></i>
+					</li>
+				</h4>
+
+				<h4 align="center">
+					<li> <strong> Elevator: 
+						<% if(apartment.facilities.elevator == "False"){ %>
+							No
+						<% }else{ %>
+							Yes
+						<% } %>
+						</strong>
+						<i class="fas fa-door-closed"></i>
+					</li>
+				</h4><br>
+
+				<div align="center" class="alert alert-success" role="alert">
+  					<strong style="font-size:25px">Location</strong>
+				</div>
+
+				<h4 align="center"><li> <strong> Address: <%= apartment.location.address %> </strong>
+					<i class="fas fa-map-marker-alt"></i></li></h4> 
+				<h4 align="center"><li> <strong> Neighbourhood: <%= apartment.location.neighbourhood %> 
+					</strong><i class="fas fa-city"></i></li></h4> 
+				<h4 align="center"><li> <strong> Transportation: <%= apartment.location.transportation %> 
+					</strong><i class="fas fa-bus"></i></li></h4><br>
+
+				<div id="mapid"></div>
+
+
+<script async defer src="https://cdn.jsdelivr.net/npm/transliteration@2.1.8/dist/browse/bundle.umd.min.js">
+</script>
+
+<script>
+
+	var lat = <%= apartment.location.lat %>;
+	var lng = <%= apartment.location.lng %>;
+					 
+	var mymap = L.map('mapid').setView([lat, lng], 15);
+	
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiZGZ3dGVpbm9zIiwiYSI6ImNrZWg1a2czYTA3Y3gzMG82NGlsdm5mZHUifQ.wSDWJpIrkAPwk5zeLoE93Q'
+}).addTo(mymap);
+	
+	var marker = L.marker([lat, lng]).addTo(mymap);
+	marker.bindPopup("<b> <%= apartment.name %> </b><br><%= apartment.location.address %>.").openPopup();
+
+	var results = L.layerGroup().addTo(mymap);
+
+	searchControl.on('results', function (data) {
+		results.clearLayers();
+		for (var i = data.results.length - 1; i >= 0; i--) {
+			results.addLayer(L.marker(data.results[i].latlng));
+		}
+	 });
+
+	window.onload = function(){
+		document.getElementById("pls-work").innerHTML = myvar;
+	}
+
+</script>
+
+
+				<% if(apartment.images.length > 0){ %>
+					<!-- Container for the image gallery -->
+					<br><br><div align="center" class="alert alert-warning" role="alert">
+							<strong style="font-size:25px">Gallery</strong>
+					</div>
+
+					<div class="row" style="background-color: rgba(0,0,0,0.7); margin-left: auto;
+											margin-right: auto;">
+						<div class="col-lg-8">
+						<!-- Full-width images with number text -->
+						<%	var i = 1;
+							for(var image of apartment.images){ %>
+								<div class="mySlides">
+									<div class="numbertext"> <%= i %> / <%= apartment.images.length %>
+									</div>
+									<img src="<%= image.url %>"
+										 style="width:100%; height:500px;object-fit:cover;">
+
+									<!-- Next and previous buttons -->
+									<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+									<a class="next" onclick="plusSlides(1)">&#10095;</a>
+								</div>
+							<% i += 1;
+							} %>
+						</div>
+
+						<!-- Thumbnail images -->
+						<%	var i = 1;
+							for(var image of apartment.images){ %>
+								<div class="column">
+									<img class="demo" src="<%= image.url %>"
+										 style="width:186px; height:123px;"
+										 onclick="currentSlide(<%= i %>)">
+								</div>
+							<%	i += 1;
+						} %>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var slideIndex = 1;
+	showSlides(slideIndex);
+
+	function plusSlides(n) {
+	  showSlides(slideIndex += n);
+	}
+
+	function currentSlide(n) {
+	  showSlides(slideIndex = n);
+	}
+
+	function showSlides(n) {
+	  var i;
+	  var slides = document.getElementsByClassName("mySlides");
+	  var dots = document.getElementsByClassName("demo");
+	  var captionText = document.getElementById("caption");
+	  if (n > slides.length) {slideIndex = 1}
+	  if (n < 1) {slideIndex = slides.length}
+	  for (i = 0; i < slides.length; i++) {
+		  slides[i].style.display = "none";
+	  }
+	  for (i = 0; i < dots.length; i++) {
+		  dots[i].className = dots[i].className.replace(" active", "");
+	  }
+	   slides[slideIndex-1].style.display = "block";
+	   dots[slideIndex-1].className += " active";
+	   captionText.innerHTML = dots[slideIndex-1].alt;
+	}
+</script>
+
+<% if(apartment.reservations.length > 0){ %>
+	<br><div class="container">
+		<div class="jumbotron" style="height:auto;">
+			<h4 style="background-color:crimson; border-radius:25px; color:white; width:30%;
+					   text-align:center; margin-top:-3%; margin-left:35%; padding:8px;">
+				Reservations
+			</h4><br><br>
+			<h4	style="list-style-type:none;">
+				<% var i = 0;
+				apartment.reservations.forEach(function(reservation){ %>
+				<li style="position:relative; top:-20px; text-align:center; margin-left:0.5%;
+						   margin-right:0.5%;">
+					<div class="col-lg-4">
+						<% if(reservation.to.valueOf() >= getToday().valueOf()){ %>
+							<i class="far fa-calendar-alt" style="color:green;"></i>
+						<% }else{ %>
+							<i class="far fa-calendar-alt" style="color:red;"></i>
+						<% } %>
+						 <%= reservation.from %> - <%= reservation.to %>
+					</div>
+					<div class="col-lg-4">
+						by <%= reservation.tenant.firstname %> <%= reservation.tenant.lastname %>
+					</div>
+					<div class="col-lg-4">
+						<%= reservation.guests %> guests
+					</div>
+					<% if(i < (apartment.reservations.length - 1)){ %>
+						<svg height="30" width="950"
+							 style="position:relative; top:15px; margin-left:2%; margin-right:2%;">
+							<line x1="1" y1="0" x2="950" y2="0"
+								  style="stroke:rgb(0,0,0,0.2);stroke-width:2;" />
+						</svg><br>
+					<% }
+					i += 1; %>
+				</li>
+				<% }); %>
+			</h4>
+		</div>
+	</div>
+<% } %>
+
+
+<%- include("../partials/footer") %>

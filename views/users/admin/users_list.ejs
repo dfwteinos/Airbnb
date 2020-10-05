@@ -1,0 +1,101 @@
+<%- include("../../partials/header") %>
+
+<br><p style="margin-top:-1.52%">
+	<a href="/users/<%= currentUser._id %>/admin"
+	   style="font-size:130%; color:firebrick; margin-left:1%; text-decoration:none;">
+		<strong>&lt; Admin Page</strong>
+	</a>
+</p>
+<div class="container">
+	<div class="row text-center" style="display: flex; flex-wrap: wrap; justify-content:center; 
+										padding:40px;">
+		<% for(var user of users){ %>
+			<div class="user-box" style="padding:35px; margin-bottom:20px; margin-right:20px;">
+				<div class="row">
+					<h4 class="pull-left">
+						<img src="<%= user.picture.url %>"
+							 style="width:95px; height:95px; border-radius:50%; margin-left:50%;
+									object-fit:cover;" />
+					</h4>
+					<h4 class="pull-right" style="color:firebrick; font-size:150%; margin-right:10%;">
+						<br><strong>~&nbsp;<%= user.username %>&nbsp;~</strong><br>
+
+						<% for(var role of user.app_role){ %>
+							<em style="font-size:75%;">&nbsp;&nbsp;&nbsp;<%= role %></em>
+						<% } %>
+					</h4>
+				</div><br>
+				<div class="row">
+					<% if(user.app_role.includes("host")){ %>
+						<h5 class="pull-left" style="margin-left:10%;">
+							<% if(user.approved_by_admin == "disapproved"){ %>
+								<form action="/users/<%=currentUser._id%>/admin/approve_host/<%=user._id%>" 
+									method="POST">
+									<button style="border:none; background-color:transparent;
+												   color:red;">
+										<i class="fas fa-exclamation-circle"></i>
+										Registration Approval Pending
+									</button><br>
+								</form>
+							<% }else{ %>
+								<p style="color:seagreen;">
+									<i class="fas fa-check"></i>Registration Approved</p>
+							<% } %>
+						</h5>
+					<% } %>
+				</div>
+				<ul style="list-style-type:none;">
+					<div class="col-lg-8" style="margin-left:-20%;">
+						<li><p style="font-size:110%"><strong>Firstname:&nbsp;</strong></p></li>
+						<li><p style="font-size:110%"><strong>Lastname:&nbsp;</strong></p></li>
+						<li><p style="font-size:110%"><strong>email:&nbsp;</strong></p></li>
+						<li><p style="font-size:110%"><strong>Phone Number:&nbsp;</strong></p></li>
+						<li><p style="font-size:110%"><strong>Messages:&nbsp;</strong></p></li>
+						<% if(user.app_role.includes("host")){ %>
+							<li><p style="font-size:110%"><strong>Apartments:&nbsp;</strong></p></li>
+							<li><p style="font-size:110%"><strong>Recieved Reviews:&nbsp;</strong></p></li>
+						<% } %>
+						<% if(user.app_role.includes("tenant")){ %>
+							<li><p style="font-size:110%"><strong>Submitted Reviews:&nbsp;</strong>
+								</p>
+							</li>
+						<% } %>
+					</div>
+					<div class="col-lg-2">
+						<li><p style="font-size:110%"><%= user.firstname %></p></li>
+						<li><p style="font-size:110%"><%= user.lastname %></p></li>
+						<li><p style="font-size:110%"><%= user.email %></p></li>
+						<li><p style="font-size:110%"><%= user.phone_number %></p></li>
+						<li><p style="font-size:110%">
+							<% var numofMessages = 0;
+							for(var message of user.messages){
+								numofMessages += message.conversation.length;
+							} %>
+							<%= numofMessages %>
+							</p></li>
+						<% if(user.app_role.includes("host")){ %>
+							<li><p style="font-size:110%"><%= user.apartments.length %></p></li>
+						<% } %>
+						<% var recievedReviews = 0;
+						var submittedReviews = 0;
+						for(var review of user.reviews){
+							if(user._id.toString() == review.about){
+								recievedReviews += 1;
+							}else{
+								submittedReviews += 1;
+							}
+						} %>
+						<% if(user.app_role.includes("host")){ %>
+							<li><p style="font-size:110%"><%= recievedReviews %></p></li>
+						<% } %>
+						<% if(user.app_role.includes("tenant")){ %>
+							<li><p style="font-size:110%"><%= submittedReviews %></p></li>
+						<% } %>
+					</div>
+				</ul>
+			</div>
+		<% } %>
+	</div>
+</div>
+
+<%- include("../../partials/footer") %>

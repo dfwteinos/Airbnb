@@ -1,0 +1,99 @@
+<%- include("../partials/header") %>
+
+<% var arrayLength = currentUser.app_role.length %>
+<% for (var i=0; i<arrayLength; i++) { %>
+	<% if (currentUser.app_role.includes("host")){ %>
+		<p style="position: absolute; left:1%; top:10%; font-size:150%;">
+			<a href="/users/<%= currentUser._id %>/host" class="btn btn-primary btn-group-toggle btn-lg " 
+			   role="button" aria-pressed="true">Host Page <i class="fas fa-home"></i> </a>
+		</p> 
+	<% } %>
+<% } %>
+	
+<style>
+	body {background-color: powderblue;}
+</style>
+
+<div class="container" style="margin-bottom: 10px;">
+	<div class="row login-form-2">
+		<h1 style="text-align: center; color:white"> Edit <%= currentUser.username %>'s Profile </h1><br>
+		<div style="width: 70%; margin: 25px auto; padding: -40px">
+			<form action="/<%= currentUser._id %>?_method=PUT" method="POST" enctype="multipart/form-data"> 
+				<!-- This is for the: select picture -->
+				<label for="image" style="color: white; font-size: 17px" >Profile Image:</label>
+				<div class="form-group">
+					<div class="thumbnail">
+						<img src= "<%= currentUser.picture.url %>" /><br>
+						<input type="file" id="image" name="image" accept="image/*">
+						<% if(currentUser.picture.public_id != "Default"){ %>
+							<label for="deleteImage"
+								   style="position: relative; left: 350px; top: -26px;">Remove</label>
+							<input type="checkbox" name="deleteImage" id="deleteImage"
+								   style="position: relative; left: 355px; top: -23px;">
+						<% } %>
+					</div>
+				</div>
+
+				<div class="form-group" style="width: 100%">
+					<label for="username" style="color: white; font-size: 17px;">Username:</label>
+					<input class="form-control" type="text" name="username" id="username"
+						   value="<%= currentUser.username %>">
+				</div>
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="password">Password:</label>
+					<input class="form-control" type="password" name="password" id="password"
+						   value="<%= currentUser.password %>">
+				</div>
+
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="confirm_password">Confirm Password:</label>
+					<input class="form-control" type="password" name="confirm_password"
+						   id="confirm_password" value="<%= currentUser.password %>">
+				</div>
+
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="firstname">Firstname:</label>
+					<input class="form-control" type="text" name="user[firstname]" id="firstname"
+						   value="<%= currentUser.firstname %>">
+				</div>
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="lastname">Lastname:</label>
+					<input class="form-control" type="text" name="user[lastname]" id="lastname"
+						   value="<%= currentUser.lastname %>">
+				</div>
+
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="app_role">Role:</label>
+					<input class="form-control" type="text" name="user[app_role]"
+						   id="app_role" value="<%= currentUser.app_role %>" readonly>
+				</div>
+
+				<div class="form-group" style="color: white; font-size: 17px">
+					<label for="email">Email:</label>
+					<input class="form-control" type="text" name="user[email]" id="email"
+						   value="<%= currentUser.email %>">
+				</div>
+
+				<div class="form-group" style="color: white; font-size: 17px; margin-bottom:10%">
+					<label for="phone_number">Phone Number:</label>
+					<input class="form-control" type="text" name="user[phone_number]" id="phone_number"
+						   value="<%= currentUser.phone_number %>">
+				</div>
+
+				<div style="margin-right: 6%">
+					
+					<div class="form-group">
+						<button class="btn btn-change3 btnSubmit"
+								style="width:100%; margin-bottom: 10%; font-size: 140%;">
+							Submit</button>
+					</div>
+				</div>
+					
+				<i class="fab fa-airbnb"
+				   style="color:white; font-size: 70px; margin-left: 340px; margin-bottom: -10%" ></i>
+			</form>
+		</div>
+	</div>
+</div>
+
+<%- include("../partials/footer") %>

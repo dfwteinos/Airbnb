@@ -1,0 +1,83 @@
+<%- include("./partials/header") %>
+
+<script>   var x = document.getElementsByTagName("BODY")[0];
+	x.style.backgroundColor = "black"; </script>
+
+<div id="landing-header">
+
+	<h1 style="text-align: center"> Welcome to Airbnb! </h1>
+	
+<div class="container">
+	<p></p>
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="thumbnail" style="width:115%; border-radius:10px" id="landingthumb">
+				<div style="padding:15px 0px 5px 35px; width:300%">
+					<div style="width: 30%; margin: 25px auto; ">
+						<form action="/search" method="POST" style="position:relative; left:-420px">
+							<div class="form-group">
+								<label for="location" style="color:white;">Location:</label>
+								<input class="form-control" type="text" name="location" id="location"
+										placeholder="Zipcode and/or City, Region (optional), Country"
+										required>
+							</div>
+							<div class="form-group">
+								<label for="check_in" style="color:white;">Check In:</label>
+								<input class="form-control" type="date" name="check_in" id="check_in"
+									   required>
+							</div>
+							<div class="form-group">
+								<label for="check_out" style="color:white;">Check Out:</label>
+								<input class="form-control" type="date" placeholder="Check Out"
+										name="check_out" id="check_out" required>
+							</div>
+							<div class="form-group">
+								<label for="guests" style="color:white;">Guests:</label>
+								<input class="form-control" type="number" placeholder="Number of guests"
+										name="guests" min="1" step="1" id="guests" required>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-lg btn-block"
+									style="background-color:firebrick; color:white;">
+										Search
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<% if(currentUser && currentUser.app_role.includes("host")){ %>
+	<p style="position: relative; left:1%; top:3%; font-size:110%; z-index: 1; margin-left: 55%">
+		<a href="/users/<%= currentUser._id %>/host" class="btn btn-primary btn-group-toggle btn-lg active bg-transparent" role="button" aria-pressed="true">Host Page <i class="fas fa-home"></i> </a>
+	</p>
+<% } %>
+</div>	
+</div>
+
+
+
+<br>
+<br>
+<br>
+<br>
+
+ <ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
+<script async defer src="https://cdn.jsdelivr.net/npm/transliteration@2.1.8/dist/browser/bundle.umd.min.js"></script>
+	
+<script>
+	import { transliterate as tr } from 'transliteration';
+</script> 
+
+
+<%- include("./partials/footer") %>

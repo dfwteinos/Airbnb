@@ -1,0 +1,160 @@
+<%- include("../../partials/header_tenant_mail") %>
+
+<div class="mail_bg_img" style="background-image:url('<%=apartment.main_image.url%>'); margin-top:-1.5%;">
+	<div style="background-color:rgba(255,255,255,0.6); height:100%; overflow:auto;">
+
+		<br><p style="font-size:130%;"> 
+			<a href="/search/<%=apartment._id%>?num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>"
+				style="margin-left:1%; color:crimson; font-size:110%; text-decoration:none;">
+				<strong>&lt; <%= apartment.name %></strong></a>
+		</p>
+
+		<br><div class="container">
+			<!-- if(error) checks if error is undefined or not (not just empty) -->
+			<% if(error && error.length > 0){ %>
+				<div class="alert alert-danger" role="alert">
+					<%= error %>
+				</div>
+			<% } %>
+			<% if(success && success.length > 0){ %>
+				<div class="alert alert-success" role="alert">
+					<%= success %>
+				</div>
+			<% } %>
+			<% if(warning && warning.length > 0){ %>
+				<div class="alert alert-warning" role="alert">
+					<%= warning %>
+				</div>
+			<% } %>
+		</div>
+
+		<h3 style="color:white; background-color:crimson; border-radius:25px; width:40%; text-align:center;
+					padding:11px; position:relative; top:5%; left:30%; right:30%;">
+			Conversation with <%= host.firstname %> <%= host.lastname %> about <%= apartment.name %>
+		</h3>
+
+		<p style="margin-left:3%;">
+			<% var str_host = JSON.stringify(host); %>
+			<a href="/messages/<%= currentUser._id %>/<%= apartment._id %>/new?recipient=<%=str_host%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>"
+			   style="color:crimson; font-size:160%; text-decoration:none; opacity:0.9;">
+				<i class="fas fa-plus"></i><strong> compose</strong>
+			</a>
+		</p>
+
+	<div class="row" style="text-align:center; padding:5%;">
+		<% if(conversation.length > 0){ %>
+			<div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% var str_all = JSON.stringify(all_messages);
+					var str_apartment = JSON.stringify(apartment);
+					if(pageNum > 1){ %>
+						<a href="/messages/tenant/page/<%= Number(pageNum) - 1 %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_messages.length / results_per_page); i++){ %>
+						<a href="/messages/tenant/page/<%= i %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>"
+						<% if(i == pageNum){ %>
+							class="active"
+						<% } %>
+						><%= i %></a>
+					<% }
+
+					if(pageNum < (all_messages.length / results_per_page)){ %>
+						<a href="/messages/tenant/page/<%= Number(pageNum) + 1 %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div><br><br>
+
+			<ul style="list-style-type:none;">
+				<% var i = 0;
+				conversation.forEach(function(message){	%>
+					<li>
+						<h4 style="margin-left:25%;">
+							<div style="display:flex; align-items:flex-start;">
+								<strong>from:</strong> <%= message.sender.username %>
+							</div>
+							<div style="display:flex; align-items:flex-end;">
+								<strong style="margin-left:53%; margin-top:-10%;">
+									<%= message.date %></strong>
+							</div>
+						</h4>
+						<h4 style="margin-left:25%;">
+							<div style="display:flex; align-items:flex-start;">
+								<strong>subject:</strong> <%= message.subject %>
+							</div>
+							<div style="display:flex; align-items:flex-end;">
+								<a onclick="browsMessage(<%=i%>)"
+									style="transform:rotate(90deg); text-decoration:none; cursor:pointer;
+											color:rgba(0,0,0,0.7); margin-left:62%; margin-top:-10%;">
+									&nbsp;&#10095;</a>
+							</div>
+						</h4>
+						<h4 id="message<%=i%>"
+							style="display:none; margin-left:-20%; transition: display 0.5s;">
+							<p style="margin-left:38%; margin-right:22%; width:40%;">
+								<br><%= message.content %><br>
+							</p>
+							<form action="/messages/<%=currentUser._id%>/<%=apartment._id%>/<%=message._id%>?_method=DELETE&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>"
+								 method="POST" onsubmit="return confirmDelete()">
+								<button style="border:none; background-color:transparent;
+											   color:firebrick; margin-left:50%;">
+									<i class="fas fa-trash-alt"></i> <strong>Delete</strong>
+								</button>
+
+								<script>
+
+									function confirmDelete(){
+										var question = "Are you sure you want to delete this message?";
+										var confirmation = confirm(question);
+										return confirmation;
+									}
+
+								</script>
+
+							</form>
+						</h4>
+						<svg height="1" width="600" style="position:relative; top:-10px; left:-10px;">
+							<line x1="10" y1="0" x2="600" y2="0" style="stroke:rgb(0,0,0,0.5);stroke-width:2;" />
+						</svg><br><br><br>
+					</li>
+					<% i += 1;
+				}); %>
+			</ul>
+
+			<br><br><div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% if(pageNum > 1){ %>
+						<a href="/messages/tenant/page/<%= Number(pageNum) - 1 %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_messages.length / results_per_page); i++){ %>
+						<a href="/messages/tenant/page/<%= i %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>"
+						<% if(i == pageNum){ %>
+							class="active"
+						<% } %>
+						><%= i %></a>
+					<% }
+
+					if(pageNum < (all_messages.length / results_per_page)){ %>
+						<a href="/messages/tenant/page/<%= Number(pageNum) + 1 %>?str_conversation=<%=str_all%>&str_apartment=<%=str_apartment%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div>
+		<% } %>
+	</div>
+	</div>
+</div>
+
+<script>
+	function browsMessage(i){
+		var message = document.getElementById("message"+i);
+
+		if(message.style.display == "none"){
+			message.style.display = "block";
+		}else if(message.style.display == "block"){
+			message.style.display = "none";
+		}
+	}
+</script>
+
+<%- include("../../partials/footer") %>

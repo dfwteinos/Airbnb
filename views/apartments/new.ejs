@@ -1,0 +1,319 @@
+<%- include("../partials/header") %>
+
+<div class="mail_bg_img" style="background-image: url('https://images.unsplash.com/photo-1531835551805-16d864c8d311?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'); margin-top:-1.52%;">
+	<div style="background-color:rgba(255,255,255,0.3); height:100%; overflow:auto;">
+		<p style="position: relative; left:1%; top:10%; font-size:115%; ">
+			<a href="/users/<%= currentUser._id %>/host" role="button" aria-pressed="true"
+				class="btn btn-primary btn-group-toggle btn-lg ">Host Page <i class="fas fa-home"></i>
+			</a>
+		</p>
+
+		<div class="container">
+			<h1 style="text-align: center; font-size:50px; opacity: 0.85">
+				<strong>Create New Place</strong></h1><br>
+			<form action="/apartments/" method="POST" enctype="multipart/form-data">
+				<div class="col-lg-8" style="float: left; width: 20%;">
+				</div>
+				<div class="col-lg-8" style="float: left; width: 60%;">
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Name" name="apartment[name]"
+							   required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Number of bedrooms"
+							   name="place[bedrooms]" min="0" step="1" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Number of beds"
+							   name="place[beds]" min="1" step="1" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Number of bathrooms"
+							   name="place[bathrooms]" min="0" step="1" required><br>
+					</div>
+
+					<div class="form-group">
+						<label for="room_type" style="font-size:20px">Private Room</label>
+						<input type="radio" value="Private Room" id="room_type" name="place[room_type]"
+							   style="position: relative; left: 10px">
+					</div>
+
+					<div class="form-group">
+						<label for="room_type" style="font-size:20px">Shared Room</label>
+						<input type="radio" value="Shared Room" id="room_type" name="place[room_type]"
+							   style="position: relative; left: 10px; ">
+					</div>
+
+					<div class="form-group">
+						<label for="room_type" style="font-size:20px">Apartment</label>
+						<input type="radio" value="Apartment" style="font-size: 20px" id="room_type" 
+							   name="place[room_type]" style="position: relative; left: 30px">
+					</div>
+
+					<div class="form-group">
+						<label for="linving_room" style="font-size:20px">Living Room</label>
+						<input type="checkbox" value="True" id="linving_room" name="place[linving_room]"
+							   style="position: relative; left: 13px">
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Floor number"
+							   name="place[floor]" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Area"
+							   name="place[area]" min="0.01" step="0.01" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Description"
+							   name="apartment[description]" required><br>
+					</div>
+
+					<div class="form-group">
+						<label for="smoking" style="font-size: 20px">Smoking</label>
+						<input type="checkbox" value="True"	id="smoking" name="renting_rules[smoking]"
+							   style="position: relative; left: 10px"/>
+					</div>
+
+					<div class="form-group">
+						<label for="pets" style="font-size: 20px">Pets</label>
+						<input type="checkbox" value="True" id="pets" name="renting_rules[pets]"
+							   style="position: relative; left: 38px"/>
+					</div>
+
+					<div class="form-group">
+						<label for="events" style="font-size: 20px">Events</label>
+						<input type="checkbox" value="True" id="events" name="renting_rules[events]"
+							   style="position: relative; left: 23px">
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" min="1" step="1"
+							   placeholder="Minimum number of days to rent"
+							   name="renting_rules[rent_days_min]" required><br>
+					</div>
+					<div class="form-group">
+						<label for="wifi" style="font-size: 20px">Wifi</label>
+						<input type="checkbox" value="True" id="wifi" name="facilities[wifi]"
+							   style="position: relative; left: 70px">
+					</div>
+
+					<div class="form-group">
+						<label for="air_conditioning" style="font-size: 20px">Air Condition</label>
+						<input type="checkbox" value="True"	id="air_conditioning"
+							   name="facilities[air_conditioning]" style="position: relative; left: 8px">
+					</div>
+
+					<div class="form-group">
+						<label for="heating" style="font-size: 20px">Heating</label>
+						<input type="checkbox" value="True" id="heating" name="facilities[heating]"
+							   style="position: relative; left: 45px">
+					</div>
+
+					<div class="form-group">
+						<label for="kitchen" style="font-size: 20px">Kitchen</label>
+						<input type="checkbox" value="True"	id="kitchen" name="facilities[kitchen]"
+							   style="position: relative; left: 44px">
+					</div>
+
+					<div class="form-group">
+						<label for="tv" style="font-size: 20px">TV</label>
+						<input type="checkbox" value="True" id="tv" name="facilities[tv]"
+							   style="position: relative; left: 75px">
+					</div>
+
+					<div class="form-group">
+						<label for="parking" style="font-size: 20px">Parking</label>
+						<input type="checkbox" value="True"	id="parking" name="facilities[parking]"
+							   style="position: relative; left: 43px">
+					</div>
+
+					<div class="form-group">
+						<label for="elevator" style="font-size: 20px">Elevator</label>
+						<input type="checkbox" value="True"	id="elevator" name="facilities[elevator]"
+							   style="position: relative; left: 40px">
+					</div>
+
+					<br><br><select id="maps" onclick="GeocodingFunction()">
+						<option style="display:none;">Location</option>
+						<option value="geocoding">Give an address</option>
+						<option value="reverse_geocoding">Choose on map</option>
+					</select><br>
+
+					<div id="mapid"></div><br>
+
+					<div id="addr" class="form-group">
+						<input class="form-control" type="text" name="location[address]"
+							   placeholder="Address e.g: Αγίου Δημητρίου 15,105 54,Αθήνα,Αττική,Ελλάδα">
+						<br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Neighbourhood"
+							   name="location[neighbourhood]" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="text" placeholder="Means of transportation"
+							   name="location[transportation]" required><br>
+					</div>
+
+					<div>
+						<label for="main_image" style="color: black; font-size:20px">
+							Select main photo:</label>
+						<input type="file" id="main_image" name="images" accept="image/*" required /><br>
+					</div>
+
+					<div>
+						<label for="images" style="color:black; font-size: 20px">More photos:</label>
+						<input type="file" id="images" name="images" accept="image/*" multiple />
+						<p>To select multiple files, hold down the CTRL or SHIFT key while selecting.
+						</p><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Minimum price per night"
+							   name="apartment[price_min]" min="0.01" step="0.01" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Extra charge per guest"
+							   name="apartment[extra_charge_per_guest]" min="0.00" step="0.01" required>
+						<br>
+					</div>
+
+					<div class="form-group">
+						<label for="avail_from" style="color:black; font-size: 20px">
+							Available from:</label>
+						<input class="form-control" type="date" name="availability_from"
+							   id="avail_from" required><br>
+						<label for="avail_to" style="color:black; font-size: 20px">Available until:</label>
+						<input class="form-control" type="date" name="availability_to"
+							   id="avail_to" required><br>
+					</div>
+
+					<div class="form-group">
+						<input class="form-control" type="number" placeholder="Maximum number of guests"
+							   name="apartment[capacity]" min="1" step="1" required><br>
+					</div>
+				</div>
+
+				<div class="col-lg-4" style="float: left; width: 37%">
+				</div>
+				<div class="col-lg-4" style="float: left; width: 25%">
+					<div class="form-group">
+						<button class="btn btn-lg btn-primary btn-block btnSubmit"
+								style="width:100%; margin-bottom: 20%; font-size:30px">Submit</button>
+						<strong>
+							<i class="fab fa-airbnb"
+								style="color:black; font-size:70px; margin-left:93px; margin-bottom:-10%">
+							</i></strong><br><br><br>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+// 	REVERSE GEOCODING => LAT AND LNG	
+// ESRI - REVERSE GECODING => ADDRESS
+
+	var mapid = null;
+	mapid = document.getElementById("mapid");
+	mapid.style.display= "none";
+
+	var map = null;
+	var popup= null;
+	var marker= null;
+	var addr = null;
+
+	addr = document.getElementById("addr");
+	addr.style.display="none";
+
+	function GeocodingFunction(){
+		var value = document.getElementById("maps").value;
+		if(value == "reverse_geocoding"){
+
+			mapid = document.getElementById("mapid");
+			mapid.style.visibility = "visible";
+			mapid.style.display = 'block';          // Show
+			addr = document.getElementById("addr");
+			addr.style.display="none";
+
+			console.log(map); // should output the object that represents instance of Leaflet
+			if (map !== undefined && map !== null) {
+  				map.remove(); // should remove the map from UI and clean the inner children of DOM element
+  				console.log(map); // nothing should actually happen to the value of mymap
+			}
+
+			map = L.map('mapid').setView([37.980, 23.750], 12);
+
+			console.log("reverse choosen");
+			console.log(map);
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			var geocodeService = L.esri.Geocoding.geocodeService();
+			popup = L.popup();
+			
+			var addr= document.getElementById("addr").style.visibility="hidden";
+			
+			map.on('click', function (e) {
+				map.eachLayer(function (layer) {
+  						layer.closePopup();	
+					});
+
+					if(marker){
+						map.removeLayer(marker);
+					}
+
+				geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+					if (error) {
+						return;
+					}
+
+					popup.setLatLng(result.latlng);
+					popup.setContent("You clicked the map at " + result.address.Match_addr);
+					popup.openOn(map);
+					marker = L.marker(result.latlng).addTo(map);
+
+					var postal = result.address.Postal.split(' ').join('');
+					var string = result.address.Address + "," + postal + "," + result.address.City + "," + result.address.Region;
+					
+					marker.bindPopup("<b>You clicked at:<b>" + string).openPopup();
+					document.getElementById("maps").name = string;
+				});
+			});
+		} else if (value == "geocoding") {
+
+			addr = document.getElementById("addr");
+			addr.style.visibility = 'visible';     // Show
+			mapid = document.getElementById("mapid");
+			mapid.style.visibility = "hidden";
+			mapid.style.display= "none";
+			addr.style.display="block";
+			
+			if (map !== undefined && map !== null) {
+  				map.remove(); // should remove the map from UI and clean the inner children of DOM element
+  				console.log(map); // nothing should actually happen to the value of mymap
+			}
+			
+			map = L.map('mapid');
+			map.remove();
+			map.off();
+			map=null;	
+		}
+	}
+
+</script>
+
+
+<%- include("../partials/footer") %>

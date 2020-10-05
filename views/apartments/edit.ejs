@@ -1,0 +1,537 @@
+<%- include("../partials/header") %>
+
+<div class="mail_bg_img" style="background-image: url('<%= apartment.main_image.url %>'); margin-top:-1%;">
+	<div style="background-color:rgba(255,255,255,0.4); height:100%; overflow:auto;">
+
+		<p style="position: relative; left:1%; top:3%; font-size:115%;">
+			<a href="/users/<%=currentUser._id %>/host" class="btn btn-primary btn-group-toggle btn-lg"
+				role="button" aria-pressed="true">Host Page <i class="fas fa-home"></i>
+			</a>
+		</p>
+
+		<div class="container">
+			<div class="row">
+				<h1 style="text-align: center;"> <strong> Edit <%= apartment.name %> </strong> </h1><br>
+				<form action="/apartments/<%= apartment._id %>?_method=PUT" method="POST"
+					  enctype="multipart/form-data">
+					<div class="col-lg-12">
+						<label for="image" style="font-size: 20px">Main Image:</label>
+						<div class="form-group">
+							<div class="thumbnail">
+								<img src= "<%= apartment.main_image.url %>"
+									 style="object-fit:cover; width:auto; height:450px;"/><br>
+
+								<label for="new_main_image" style="font-size: 20px">Load new image</label>
+								<input type="checkbox" id="new_main_image" onclick="browseButton()"
+									   name="new_main_image">
+								<input type="file" id="image" name="images" accept="image/*"
+									   style="display: none;">
+
+								<script>
+									function browseButton(){
+										var	checkbox = document.getElementById("new_main_image");
+										var button = document.getElementById("image");
+
+										if(checkbox.checked == true){
+											button.style.display = "block";
+										}else{
+											button.style.display = "none";
+										}
+									}
+								</script>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-lg-8" style="float: left; width: 20%;">
+					</div>
+					<div class="col-lg-8" style="float: left; width: 60%;">
+						<div class="form-group">
+							<label for="name" style="font-size: 20px">Name:</label>
+							<input class="form-control" type="text" name="apartment[name]" id="name"
+								   value="<%= apartment.name %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="bedrooms" style="font-size: 20px">Number of bedrooms:</label>
+							<input class="form-control" type="number" name="place[bedrooms]" min="0" 
+								   step="1"	id="bedrooms" value="<%= apartment.place.bedrooms %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="beds" style="font-size: 20px">Number of beds:</label>
+							<input class="form-control" type="number" name="place[beds]" min="0" step="1"
+								   id="beds" value="<%= apartment.place.beds %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="bathrooms" style="font-size: 20px">Number of bathrooms:</label>
+							<input class="form-control" type="number" name="place[bathrooms]" min="0" 
+								   step="1"	id="bathrooms" value="<%= apartment.place.bathrooms %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="room_type" style="font-size: 20px">Private Room</label>
+							<input type="radio" name="place[room_type]" id="room_type" value="Private Room"
+								   style="position: relative; left: 10px"
+								   <% if(apartment.place.room_type == "Private Room"){ %>
+										checked
+									<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="room_type" style="font-size: 20px">Shared Room</label>
+							<input type="radio" name="place[room_type]" id="room_type" value="Shared Room"
+								   style="position: relative; left: 10px" 
+								   <% if(apartment.place.room_type == "Shared Room"){ %>
+										checked
+									<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="room_type" style="font-size: 20px">Apartment</label>
+							<input type="radio" name="place[room_type]" id="room_type" value="Apartment"
+								   style="position: relative; left: 30px"
+								   <% if(apartment.place.room_type == "Apartment"){ %>
+										checked
+								   <% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="living_room" style="font-size: 20px">Living Room</label>
+							<input type="checkbox" name="place[living_room]" id="living_room" value="True"
+								   style="position: relative; left: 13px"
+								   <% if(apartment.place.living_room == "True"){ %>
+										checked
+									<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="floor" style="font-size: 20px">Floor Number:</label>
+							<input class="form-control" type="text" name="place[floor]" id="floor"
+								   value="<%= apartment.place.floor %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="area" style="font-size: 20px">Area:</label>
+							<input class="form-control" type="number" name="place[area]" min="0.01" 
+								   step="0.01" id="area" value="<%= apartment.place.area %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="description" style="font-size: 20px">Description:</label>
+							<input class="form-control" type="text" name="apartment[description]"
+								   id="description" value="<%= apartment.description %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="smoking" style="font-size: 20px">Smoking</label>
+							<input type="checkbox" name="renting_rules[smoking]" id="smoking" value="True"
+								   style="position: relative; left: 10px"
+								   <% if(apartment.renting_rules.smoking == "True"){ %>
+										checked
+								   <% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="pets" style="font-size: 20px">Pets</label>
+							<input type="checkbox" name="renting_rules[pets]" id="pets" value="True"
+								   style="position: relative; left: 38px"
+								   <% if(apartment.renting_rules.pets == "True"){ %>
+										checked
+								   <% } %>>
+						</div>
+
+						<div class="form-group">
+							<label for="events" style="font-size: 20px">Events</label>
+							<input type="checkbox" name="renting_rules[events]" id="events" value="True"
+								   style="position: relative; left: 23px"
+								   <% if(apartment.renting_rules.events == "True"){ %>
+										checked
+								   <% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="rent_days_min" style="font-size: 20px">
+								Minimum renting days:</label>
+							<input class="form-control" type="number" name="renting_rules[rent_days_min]"
+								   min="1" step="1" id="rent_days_min"
+								   value="<%= apartment.renting_rules.rent_days_min %>"/>
+						</div>
+
+						<div class="form-group">
+							<label for="wifi" style="font-size: 20px">Wifi</label>
+							<input type="checkbox" name="facilities[wifi]" id="wifi" value="True"
+								   style="position: relative; left: 70px"
+								   <% if(apartment.facilities.wifi == "True"){ %>
+										checked
+								   <% } %>>
+						</div>
+
+						<div class="form-group">
+							<label for="air_conditioning" style="font-size: 20px">Air Condition</label>
+							<input type="checkbox" name="facilities[air_conditioning]" 
+								   id="air_conditioning" value="True" style="position: relative; left: 8px"
+								   <% if(apartment.facilities.air_conditioning == "True"){ %>
+										checked
+								   <% } %>>
+						</div>
+
+						<div class="form-group">
+							<label for="heating" style="font-size: 20px">Heating</label>
+							<input type="checkbox" name="facilities[heating]" id="heating"
+								   value="True" style="position: relative; left: 45px"
+								   <% if(apartment.facilities.heating == "True"){ %>
+										checked
+								   <% } %>>
+						</div>
+
+						<div class="form-group">
+							<label for="kitchen" style="font-size: 20px">Kitchen</label>
+							<input type="checkbox" name="facilities[kitchen]" id="kitchen" value="True"
+							   style="position: relative; left: 44px"
+								<% if(apartment.facilities.kitchen == "True"){ %>
+									checked
+								<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="tv" style="font-size: 20px">TV</label>
+							<input type="checkbox" name="facilities[tv]" id="tv" value="True"
+								   style="position: relative; left: 75px"
+								   <% if(apartment.facilities.tv == "True"){ %>
+										checked
+									<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="parking" style="font-size: 20px">Parking</label>
+							<input type="checkbox" name="facilities[parking]" id="parking" value="True"
+								   style="position: relative; left: 43px"
+								   <% if(apartment.facilities.parking == "True"){ %>
+										checked
+									<% } %>/>
+						</div>
+
+						<div class="form-group">
+							<label for="elevator" style="font-size: 20px">Elevator</label>
+							<input type="checkbox" name="facilities[elevator]" id="elevator" value="True"
+								   style="position: relative; left: 40px"
+								   <% if(apartment.facilities.elevator == "True"){ %>
+										checked
+								   <% } %>>
+						</div>
+
+						<select id="maps" onclick="GeocodingFunction()">
+							<option style="display:none">Location</option>
+							<option value="geocoding">Give an address</option>
+							<option value="reverse_geocoding">Choose on map</option>
+						</select><br><br>
+
+						<div id="mapid"></div><br>
+
+
+						<div id="addr" class="form-group">
+							<label for="address" style="font-size: 20px">Address:</label>
+							<input class="form-control" type="text" name="location[address]" id="address"
+								   value="<%= apartment.location.address %>">
+						</div>
+
+						<div class="form-group">
+							<label for="neighbourhood" style="font-size: 20px">Neighbourhood:</label>
+							<input class="form-control" type="text" name="location[neighbourhood]"
+								   id="neighbourhood" value="<%= apartment.location.neighbourhood %>">
+						</div>
+
+						<div class="form-group">
+							<label for="transportation" style="font-size: 20px">
+								Means of transportation:</label>
+							<input class="form-control" type="text" name="location.transportation"
+								   id="transportation" value="<%= apartment.location.transportation %>">
+						</div>
+
+						<div class="form-group">
+							<label for="price_min" style="font-size: 20px">Minimum price per night:</label>
+							<input class="form-control" type="number" name="apartment[price_min]" 
+								   min="0.01" step="0.01" id="price_min" value="<%= apartment.price_min %>">
+						</div>
+
+						<div class="form-group">
+							<label for="extra_charge_per_guest" style="font-size: 20px">
+								Extra charge per guest:</label>
+							<input class="form-control" type="number" 
+								   name="apartment[extra_charge_per_guest]"
+								   min="0.00" step="0.01" id="extra_charge_per_guest"
+								   value="<%= apartment.extra_charge_per_guest %>">
+						</div>
+
+						<div class="form-group">
+							<label style="position:relative; left:-35px; top:10px; font-size:20px">
+								Availability Dates:</label>
+							<h5 class="pull-left" style="position:relative; top:45px; font-size:20px">
+								<strong>from:<br><br>
+									to:</strong>
+							</h5>
+							<div class="row text-center"
+								 style="display:flex; flex-wrap:wrap; justify-content:center;">
+								<%	var i = 0;
+								apartment.availability.forEach(function(dates){ %>
+								<div style="padding: 20px;">
+									<input class="form-control" type="date" style="font-size:20px" 
+											name="availability[from_<%= i %>]"
+											id="avail_from" value="<%= dates.from %>">
+									<input class="form-control" type="date" style="font-size:20px" 
+											name="availability[to_<%= i %>]"
+											id="avail_to" value="<%= dates.to %>">
+								</div>
+								<% i += 1;
+							}); %>
+							</div>
+
+							<label for="more_dates" style="font-size: 20px">Add more dates</label>
+							<input type="checkbox" id="more_dates" onclick="browseDateInputs()"
+									name="more_dates">
+							<br><label for="more_dates_from" id="label_from"
+									   style="display:none; font-size:20px">from:</label>
+							<input class="form-control" type="date" name="more_dates_from"
+									id="more_dates_from" style="display:none;"><br>
+							<label for="more_dates_to" id="label_to"
+								   style="display:none; font-size:20px">to:</label>
+							<input class="form-control" type="date" name="more_dates_to"
+									id="more_dates_to" style="display:none;"><br>
+
+							<script>
+								function browseDateInputs(){
+									var	checkbox = document.getElementById("more_dates");
+									var label_from = document.getElementById("label_from");
+									var input_from = document.getElementById("more_dates_from");
+									var label_to = document.getElementById("label_to");
+									var input_to = document.getElementById("more_dates_to");
+
+									if(checkbox.checked == true){
+										label_from.style.display = "block";
+										input_from.style.display = "block";
+										label_to.style.display = "block";
+										input_to.style.display = "block";
+									}else{
+										label_from.style.display = "none";
+										input_from.style.display = "none";
+										label_to.style.display = "none";
+										input_to.style.display = "none";
+									}
+								}
+							</script>
+						</div>
+
+						<div class="form-group">
+							<label for="capacity" style="font-size: 20px">Maximum number of guests:</label>
+							<input class="form-control" type="number" name="apartment[capacity]" min="1"
+								   step="1" id="capacity" value="<%= apartment.capacity %>"><br>
+						</div>
+					</div>
+
+					<div class="col-lg-12" style="width: 90%;">
+						<!-- Container for the image gallery -->
+						<div class="container">
+							<% if(apartment.images.length > 0){ %>
+							<label>Photos:</label>
+							<% } %>
+							<div class="thumbnail">
+								<% if(apartment.images.length > 0){ %>
+								<div class="row"
+									style="background-color: rgba(0,0,0,0.7); margin-left: auto; margin-right: auto;">
+									<div class="col-lg-8">
+									<!-- Full-width images with number text -->
+										<%	var i = 1;
+											for(var image of apartment.images){ %>
+											<div class="mySlides">
+												<div class="numbertext">
+													<%= i %> / <%= apartment.images.length %>
+												</div>
+												<img src="<%= image.url %>"
+													 style="width:100%; height:500px;object-fit:cover;">
+												<!-- Next and previous buttons -->
+												<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+												<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+												<!-- Remove checkbox -->
+												<label for="image<%= i %>"
+													   style="position: relative; left: 1025px; font-size:110%;	color:red; top:30px;">
+													Remove
+												</label>
+												<input type="checkbox" name="deleteImages[]"
+													   id="image<%= i %>" value="<%= image.public_id %>"
+													   style="position: relative; left: 1030px; top:30px;">
+											</div>
+											<% i += 1;
+											} %>
+									</div>
+									<!-- Thumbnail images -->
+									<%	var i = 1;
+										for(var image of apartment.images){ %>
+										<div class="column">
+											<img class="demo" src="<%= image.url %>"
+												 style="width:186px; height:123px;"
+												 onclick="currentSlide(<%= i %>)">	
+										</div>
+									<%	i += 1;
+									} %>
+								</div><br>
+
+								<script>
+									var slideIndex = 1;
+									showSlides(slideIndex);
+
+									function plusSlides(n) {
+									  showSlides(slideIndex += n);
+									}
+
+									function currentSlide(n) {
+									  showSlides(slideIndex = n);
+									}
+
+									function showSlides(n) {
+									  var i;
+									  var slides = document.getElementsByClassName("mySlides");
+									  var dots = document.getElementsByClassName("demo");
+									  var captionText = document.getElementById("caption");
+									  if (n > slides.length) {slideIndex = 1}
+									  if (n < 1) {slideIndex = slides.length}
+									  for (i = 0; i < slides.length; i++) {
+										  slides[i].style.display = "none";
+									  }
+									  for (i = 0; i < dots.length; i++) {
+										  dots[i].className = dots[i].className.replace(" active", "");
+									  }
+									   slides[slideIndex-1].style.display = "block";
+									   dots[slideIndex-1].className += " active";
+									   captionText.innerHTML = dots[slideIndex-1].alt;
+									}
+								</script>
+								<% } %>
+								<div class="form-group">
+									<label for="images" style="font-size: 20px;">Add more photos:</label>
+									<input type="file" name="images" accept="image/*" multiple>
+									<p>
+										To select multiple files, hold down the CTRL or SHIFT key while selecting.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4" style="float: left; width: 37%">
+					</div>
+					<div class="col-lg-4" style="float: left; width: 25%">
+						<div class="form-group">
+							<button class="btn btn-lg btn-primary btn-block" style="margin-bottom: 50px">Submit</button>
+												<strong><i class="fab fa-airbnb" style="color:black; font-size: 70px; margin-left: 93px; margin-bottom: -10%" ></i></strong><br><br><br>
+
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+// ESRI - REVERSE GECODING => ADDRESS
+	var mapid = null;
+	mapid = document.getElementById("mapid");
+	mapid.style.display= "none";
+	
+	var map = null;
+	var popup= null;
+	var marker= null;
+	var addr = null;
+	
+	addr = document.getElementById("addr");
+	addr.style.display="none";
+	
+	function GeocodingFunction(){
+		var value = document.getElementById("maps").value;
+		if(value == "reverse_geocoding"){
+			
+			mapid = document.getElementById("mapid");
+			mapid.style.visibility = "visible";
+			mapid.style.display = 'block';          // Show
+			addr = document.getElementById("addr");
+			addr.style.display="none";
+
+			
+			console.log(map); // should output the object that represents instance of Leaflet
+			if (map !== undefined && map !== null) {
+  				map.remove(); // should remove the map from UI and clean the inner children of DOM element
+  				console.log(map); // nothing should actually happen to the value of mymap
+			}
+
+			
+			map = L.map('mapid').setView([ <%= apartment.location.lat %> , <%= apartment.location.lng %> ], 15);
+			var marker = L.marker([ <%= apartment.location.lat %> , <%= apartment.location.lng %> ]).addTo(map);
+			marker.bindPopup("<b> <%= apartment.name %> </b><br><%= apartment.location.address %>.").openPopup();
+
+			
+			console.log("reverse choosen");
+			console.log(map);
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+			var geocodeService = L.esri.Geocoding.geocodeService();
+			popup = L.popup();
+			
+			var addr= document.getElementById("addr").style.visibility="hidden";
+			
+			map.on('click', function (e) {
+				
+				map.eachLayer(function (layer) {
+						console.log("gay");
+						console.log(layer);
+						console.log("gay2");
+  						layer.closePopup();	
+					});
+
+					if(marker){
+						map.removeLayer(marker);
+					}
+				
+				geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
+					if (error) {
+						return;
+					}
+
+					popup.setLatLng(result.latlng);
+					popup.setContent("You clicked the map at " + result.address.Match_addr);
+					popup.openOn(map);
+					marker = L.marker(result.latlng).addTo(map);
+					marker.bindPopup("<b>You clicked at:<b>" + result.address.Match_addr).openPopup();
+
+					document.getElementById("maps").name = result.address.Match_addr;
+				});
+			});
+		} else if (value == "geocoding") {
+
+			addr = document.getElementById("addr");
+			addr.style.visibility = 'visible';     // Show
+			mapid = document.getElementById("mapid");
+			mapid.style.visibility = "hidden";
+			mapid.style.display= "none";
+			addr.style.display="block";
+
+			if (map !== undefined && map !== null) {
+  				map.remove(); // should remove the map from UI and clean the inner children of DOM element
+  				console.log(map); // nothing should actually happen to the value of mymap
+			}
+
+			map = L.map('mapid');
+			map.remove();
+			map.off();
+			map=null;
+		}
+	}
+</script>
+
+<%- include('../partials/footer') %>

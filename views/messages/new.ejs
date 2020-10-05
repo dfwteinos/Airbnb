@@ -1,0 +1,41 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<form
+	<% if(currentUser._id.equals(apartment.host._id)){ %>
+		action="/messages/<%= sender._id %>/<%= apartment._id %>?recipient=<%=recipient._id%>"
+	<% }else{ %>
+		action="/messages/<%= sender._id %>/<%= apartment._id %>?recipient=<%=recipient._id%>&num_days=<%=num_days%>&guests=<%=guests%>&check_in=<%=check_in%>&check_out=<%=check_out%>"
+	<% } %>
+		method="POST">
+		<div class="form-group">
+			<label for="sender">From:</label>
+			<input class="form-control" id="sender" type="text" placeholder="<%= sender.username %>" 
+				   readonly>
+		</div>
+
+		<div class="form-group">
+			<label for="recipient">To:</label>
+			<input class="form-control" id="recipient" type="text" placeholder="<%= recipient.username %>"
+				   readonly>
+		</div>
+
+		<div class="form-group">
+			<label for="subject">Subject:</label>
+			<input class="form-control" id="subject" type="text" placeholder="Add a subject"
+				   name="subject">
+		</div>
+
+		<div class="form-group">
+			<label for="content">Text:</label>
+			<input class="form-control" id="content" type="text" name="content">
+		</div>
+
+		<div class="form-group">
+			<button>Send</button>
+		</div>
+	</form>
+</div>
+
+
+<%- include("../partials/footer") %>

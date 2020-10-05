@@ -1,0 +1,96 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<header class="jumbotron">
+		<div class="container">
+
+			<h4 class="pull-left">
+				<div class="row">
+					<div class="col-lg-2">
+						<img src="<%=host.picture.url%>"
+							 style="border-radius:5px; object-fit:cover; width:130px; height:130px;">
+					</div>
+					<div class="col-lg-6" style="width:60%; margin-left:55%; margin-top:-35%;">
+						<% var average=0;
+						for(var review of host.reviews){
+							average += review.rating;
+						}
+
+						average = average/host.reviews.length;
+
+						for(var i=1; i<10; i+=2){
+							if((average % 2) == 0){
+								if( i < average ) { %>
+									<span class="fa fa-star" style="color:orange;"></span>
+								<% }else { %>
+									<span class="far fa-star" style="color:orange;"></span>
+								<%	}
+							}else{
+								if( i == average) {%>
+									<span class="fa fa-star-half-o" style="color:orange;"></span>
+								<% }else if(i < average){ %>	
+									<span class="fa fa-star" style="color:orange;"></span>
+								<%	}else{%>
+									<span class="far fa-star" style="color:orange;"></span>
+								<%	}
+							}
+						}  %><span style="color:orange;">(<%=host.reviews.length%>)</span><br><br>
+
+						<% var max =
+							(2<=host.reviews.length) ? 2 : host.reviews.length;
+						for(var i=0; i<max; i++){ %>
+							<span><i class="fas fa-comment"></i>
+								<% if(host.reviews[i].text.length > 30){ %>
+									<%= host.reviews[i].text.slice(0,30) %>...
+								<% }else{ %>
+									<%= host.reviews[i].text.slice(0,30) %>
+								<% } %>
+							</span><br><br>
+						<% } %>
+					
+						<% if(host.reviews.length > 0){ %>
+							<br><a class="outline-button" href="/reviews/host/<%=host._id%>"
+								style="font-size:100%; text-decoration: none;">
+								<strong>&nbsp;Read More&nbsp;</strong>
+							</a>
+						<% } %>
+					</div>
+				</div>
+			</h4>
+			<h4 class="pull-right" style="margin-right:10%;">
+				<p style="font-size:300%; font-family:URW Chancery L, cursive;">
+					Host Page <i class="fas fa-home"></i></p>
+				<% if(host.approved_by_admin == "approved"){ %>
+					<p><a class ="btn btn-primary btn-lg"
+						  href="/apartments/new" style="margin-left:10%; margin-top:8%; font-size:120%;">
+						Add a new Place</a>
+					</p>
+				<% } %>
+			</h4>
+		</div>
+	</header><br>
+
+	<div class="row text-center" style="display: flex; flex-wrap: wrap;">
+		<% apartments.forEach(function(apartment){ %>
+			<div class="col-md-3 col-sm-6">
+				<div class="thumbnail">
+					<a href="/apartments/<%= apartment._id %>">
+						<img src="<%= apartment.main_image.url %>"
+							 style="object-fit:cover; width:250px; height:250px">
+					</a>
+					<div class="caption">
+						<strong><a href="/apartments/<%= apartment._id %>"
+								style="font-size:170%; font-family:URW Chancery L, cursive; color:firebrick">
+							<%= apartment.name %></a>
+						</strong>
+					</div>
+				</div>
+			</div>
+		<% }) %>
+	</div>
+
+</div>
+
+
+
+<%- include("../partials/footer") %>

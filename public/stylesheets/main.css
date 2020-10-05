@@ -1,0 +1,563 @@
+#profile_image img {
+	border-radius: 50%;
+	padding: 8px;
+	width: 50px;
+	height: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.outline-button {
+	border:2px solid gray;
+	background-color: transparent;
+	color:gray;
+	cursor:pointer;
+	font-size: 130%;
+}
+
+.outline-button:hover {
+	border:2px solid #585858;
+	color: rgba(0,0,0,0.6);
+	background-color: lightgray;
+}
+
+#mapid { 
+	
+	height: 45em; 
+}
+
+.user-box {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
+                0 2px 4px rgba(0,0,0,0.07), 
+                0 4px 8px rgba(0,0,0,0.07), 
+                0 8px 16px rgba(0,0,0,0.07),
+                0 16px 32px rgba(0,0,0,0.07), 
+                0 32px 64px rgba(0,0,0,0.07);
+	width: 450px;
+	height: auto;
+}
+
+/*--------------------------------------- Host Mail Index Page --------------------------------------*/
+
+.mail_column {
+	float: left;
+	width: 42%;
+	margin-top:4%;
+	border-radius: 10px;
+	padding: 3%;
+	background-color: rgba(0,0,0,0.15);
+}
+
+.mail_column h3 {
+	color: white;
+	background-color: crimson;
+	border-radius: 25px;
+	width: 30%;
+	text-align: center;
+	padding: 5px;
+	margin-left: 35%;
+	margin-top: -4%;
+}
+
+.mail_column li {
+	border-style: none none none solid;
+	border-color: rgba(0,0,0,0.4);
+	padding: 3%;
+	margin-left: -5%;
+	transition: background-color 0.25s;
+}
+
+.mail_column li:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.mail_column a {
+	text-decoration: none;
+	color: rgba(0,0,0,0.6);
+	font-size: 108%;
+}
+
+.mail_column a:hover {
+	color: rgba(0,0,0,0.7);
+}
+
+.mail_column p {
+	text-align: center;
+	font-size: 175%;
+	color: rgba(0,0,0,0.6);
+	font-family: URW Chancery L, cursive;
+}
+
+/*------------------------------------- Host Mail Show Page ----------------------------------------*/
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.mail_bg_img {
+	position: fixed;
+	width: 100%;
+	z-index: 2;
+    height:100%;
+	opacity: 0.9;
+	overflow: auto;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-clip: border-box;
+}
+
+
+/* --------------------------------- Slideshow for Apartment Images --------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+
+
+/* ----------------------------- Filter overlay for Search Results ------------------------------- */
+
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 10%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  text-decoration: none;
+  font-size: 100%;
+  color: #818181;
+  display: block; 
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.overlay p {
+	font-size: 130%;
+	color: #dfdfdf;
+	position: relative;
+	top: -60px;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+/* --------------------------------- Add Input Range Value Bubble ---------------------------------- */
+
+output {
+  position: relative;
+  left: -110px;
+  top: -27px;
+  width: 50px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid #e2e2e2;
+  background-color: #fff;
+  border-radius: 3px;
+  color: rgba(0,0,0,0.8);
+}
+
+/* ------------------------------------------ Pagination -------------------------------------------- */
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+.mail_pagination a {
+  color: rgba(0,0,0,0.6);
+  float: left;
+  text-decoration: none;
+  padding: 2%;
+}
+
+.mail_pagination a.active {
+  background-color: transparent;
+  color: crimson;
+}
+
+.mail_pagination a:hover:not(.active) {
+  background-color: transparent;
+}
+
+
+/* ----------------------------------------- Cloud Button ------------------------------------------- */
+
+.cloud-button form {
+  text-decoration: none;
+  color:crimson;
+  position: relative;
+  left: 262px;
+  top: -90px;
+  transition: transform 0.2s;
+}
+
+.cloud-button form:hover {
+  transform: scale(1.1);
+}
+
+.cloud-shape svg {
+  height: 60%;
+  width: 92%;
+}
+.cloud-shape path {
+  fill: crimson;
+  opacity: 0.5;
+  stroke: crimson;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+
+/* ----------------------------------------- Star Rating System ------------------------------------*/
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+/* Ratings widget */
+.rate {
+    display: inline-block;
+    border: 0;
+}
+/* Hide radio */
+.rate > input {
+    display: none;
+}
+/* Order correctly by floating highest to the right */
+.rate > label {
+    float: right;
+}
+/* The star of the show */
+.rate > label:before {
+    display: inline-block;
+    font-size: 2.1rem;
+    padding: .3rem .2rem;
+    margin: 0;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 "; /* full star */
+}
+/* Zero stars rating */
+.rate > label:last-child:before {
+    content: "\f089 "; /* half star no outline */
+}
+/* Half star trick */
+.rate .half:before {
+    content: "\f089 "; /* half star no outline */
+    position: absolute;
+    padding-right: 0;
+}
+
+/*Hover on stars*/
+.rate > input:checked ~ label, /* color current and previous stars on checked */
+.rate > label:hover, label:hover  ~ label { color: orange;  } /* color previous stars on hover */
+
+
+/* Hover highlights */
+.rate > input:checked + label:hover, input:checked ~ label:hover, /* highlight current and previous stars */
+.rate > input:checked ~ label:hover ~ label, /* highlight previous selected stars for new rating */
+.rate > label:hover ~ input:checked ~ label /* highlight previous selected stars */ { color: orange;  } 
+
+
+/* --------------------------------- Background Slideshow -------------------------------------*/
+
+	 
+#landingthumb {
+	margin-left: 190% ;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+#landing-header {
+  z-index: 1;
+  position: fixed;
+  text-align: center;
+  padding-top: 40vh;
+  margin-top: -20%;
+}
+
+#navbarslide{
+	z-index: 1;
+	display: block;
+}
+
+#landing-header h1 {
+	margin-left: 54%;
+ 	color: #fff;
+}
+
+.slideshow { 
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slideshow li { 
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 0;
+  animation: imageAnimation 50s linear infinite; 
+}
+
+.slideshow li:nth-child(1) { 
+  background-image: url(https://images.unsplash.com/photo-1556955112-28cde3817b0a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+	/* background-size: cover; */
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(https://images.unsplash.com/photo-1560185127-6ed189bf02f4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+  animation-delay: 10s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(https://images.unsplash.com/photo-1416331108676-a22ccb276e35?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1347&q=80);
+  animation-delay: 20s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(https://images.unsplash.com/photo-1467987506553-8f3916508521?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80);
+  animation-delay: 30s; 
+}
+.slideshow li:nth-child(5) { 
+  background-image: url(https://images.unsplash.com/photo-1451934403379-ffeff84932da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1242&q=80);
+  animation-delay: 40s; 
+}
+
+@keyframes imageAnimation { 
+  0% { 
+    opacity: 0; 
+    animation-timing-function: ease-in;
+  }
+  10% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  20% {
+    opacity: 1
+  }
+  30% {
+    opacity: 0
+  }
+}
+
+.no-cssanimations .slideshow li {
+	opacity: 1;
+}
+
+
+
+
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.login-form-2{
+    padding: 5%;
+    background: #0062cc;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 15px;
+}
+.login-form-2 h3{
+    text-align: center;
+    color: #fff;
+}
+.login-container form{
+    padding: 10%;
+}
+.btnSubmit
+{
+    width: 50%;
+    border-radius: 1rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+	
+}
+
+.btnSubmit.active{
+	
+	color: #7aa9f5;
+	
+}
+.login-form-2 .btnSubmit{
+    font-weight: 600;
+    color: #0062cc;
+    background-color: #fff;
+}
+.login-form-2 .SignUp{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.rounded {
+
+	border-radius: 4px;
+}
+
+.SignUp:hover {
+	color: #298fa6;
+}
+
+#cp {
+	background-color: rgba(255, 255, 255, 0.28);
+}
+
+#flash {
+	
+	margin: auto 38%;
+    position: fixed;
+    top: 60px;
+    left: 1%;
+    right: 1%;
+    z-index: 7000;
+    border: 1px solid grey;
+    opacity: 0.8;
+	width: 20%;
+}
+
+.btn-change3{
+    height: 50px;
+    width: 100px;
+    background: lightseagreen;
+    margin: 20px;
+    float: left;
+    border:0px;
+    color:#fff;
+    box-shadow: 0 0 1px #ccc;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function: ease-out;
+    -webkit-box-shadow: 0px 0px 0 0 #94baf7 inset , 0px 0px 0 #94baf7 inset;
+}
+.btn-change3:hover{
+    -webkit-box-shadow: 0px 50px 0 0px #94baf7 inset , 0px -50px 0 0px #94baf7 inset; 
+}

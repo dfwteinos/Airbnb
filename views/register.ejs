@@ -1,0 +1,63 @@
+<%- include("./partials/header") %>
+
+<style>
+	body {background-color: powderblue;}
+</style>
+
+<div class="container" style="margin-bottom:5%; margin-left:27%; margin-top:5%;">
+	<div class="col-md-8">
+		<div class="login-form-2" style="text-align:center;">
+		<h2 style="color:white"> Sing Up </h2><br>
+		<div style="width: 30%; margin-left: 28%;">
+			<form action="/register" method="POST" enctype="multipart/form-data">
+				<div class="form-group" style="padding-bottom: 10px">
+					<input class="form-control" type="text" name="username" placeholder="Username" 
+						   style="width:300px;">
+				</div>
+				<div class="form-group" style = "padding-bottom: 10px">
+					<input class="form-control" type="password" name="password" placeholder="Password" 
+						   style="width:300px">
+				</div>
+				<div class="form-group" style = "padding-bottom: 10px">
+					<input class="form-control" type="password" name="confirm_password" 
+						   placeholder="Confirm password" style="width:300px">
+				</div>
+				<div class="form-group" style = "padding-bottom: 10px">
+					<input class="form-control" type="text" name="user[firstname]" placeholder="First Name" 
+						   style="width:300px">
+				</div>
+				<div class="form-group" style = "padding-bottom: 10px">
+					<input class="form-control" type="text" name="user[lastname]" placeholder="Last Name" 
+						   style="width:300px">
+				</div>
+				<div class="form-group" style= "padding-bottom: 10px">
+					<input class="form-control" type="email" name="user[email]" placeholder="email" 
+						   style="width:300px">
+				</div>
+				<div class="form-group" style= "padding-bottom: 10px">
+					<input class="form-control" type="tel" name="user[phone_number]"
+						   placeholder="Phone Number" style="width:300px">
+				</div>
+				<div class="form-group">
+					<input type="checkbox" name="user[app_role]" value="tenant" style="margin-left:-45%;">
+					<label for="app_role" style="color:white; font-size:20px">Tenant</label><br>
+					<input type="checkbox" name="user[app_role]" value="host" style="margin-left:-55%;">
+					<label for="app_role" style="color:white; font-size:20px">Host</label><br>
+				</div>
+				<div class="form-group">
+					<label for="image" style="color:white; font-size:17px; margin-left:-40%;">
+						Profile Image:</label>
+					<input type="file" id="image" name="image" accept="image/*"><br><br>
+				</div>
+				<button class="btnSubmit" style="font-size:20px; width:100%; height:50px; margin-left:25%; 
+												 margin-bottom:20px; margin-top:-20px">Sing Up</button>
+			</form>
+
+			<i class="fab fa-airbnb"
+			   style="color:white; font-size: 70px; margin-left: 115px; margin-bottom: -10%" ></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- include("./partials/footer") %>

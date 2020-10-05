@@ -1,0 +1,130 @@
+<%- include("../../partials/header") %>
+
+<br><p style="font-size:130%;"> 
+	<a href="/apartments/<%=apartment._id%>"
+		style="margin-left:1%; color:crimson; font-size:110%; text-decoration:none;">
+		<strong>&lt; <%= apartment.name %></strong></a>
+</p>
+
+
+<div class="row">
+	<% var str_apartment = JSON.stringify(apartment);
+	var str_inbox = JSON.stringify(all_inbox);
+	var str_sent = JSON.stringify(all_sent); %>
+	<div class="mail_column" style="margin-left: 5%; margin-right: 3%;">
+		<h3><i class="fas fa-envelope"></i> Inbox</h3><br>
+		<% if(inbox.length == 0){ %>
+			<p>~ No messages ~</p>
+		<% }else{ %>
+			<div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% if(inboxPage > 1){ %>
+						<a href="/messages/host/pages/<%= Number(inboxPage) - 1 %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_inbox.length / results_per_page); i++){ %>
+						<a href="/messages/host/pages/<%= i %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>"
+							<% if(i == inboxPage){ %>
+								class="active"
+							<% } %>><%= i %></a>
+					<% }
+
+					if(inboxPage < (all_inbox.length / results_per_page)){ %>
+						<a href="/messages/host/pages/<%= Number(inboxPage) + 1 %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div><br>
+
+			<br><ul style="list-style-type:none;">
+				<% for(var message of inbox){ %>
+					<a href="/messages/host/<%=currentUser._id%>/<%=apartment._id%>/<%=message._id%>">
+						<li>
+							<strong><%= message.sender.username %>:</strong>&nbsp;&nbsp;&nbsp;
+							<%= message.subject %>
+							<h5 class="pull-right"><%= message.date %></h5>
+						</li>
+					</a>
+				<% } %>
+			</ul><br>
+
+			<br><div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% if(inboxPage > 1){ %>
+						<a href="/messages/host/pages/<%= Number(inboxPage) - 1 %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_inbox.length / results_per_page); i++){ %>
+						<a href="/messages/host/pages/<%= i %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>"
+							<% if(i == inboxPage){ %>
+								class="active"
+							<% } %>><%= i %></a>
+					<% }
+
+					if(inboxPage < (all_inbox.length / results_per_page)){ %>
+						<a href="/messages/host/pages/<%= Number(inboxPage) + 1 %>/<%=Number(sentPage)%>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div>
+		<% } %>
+	</div>
+
+	<div class="mail_column" style="margin-left: 3%; margin-right: 3%;">
+		<h3><i class="fas fa-paper-plane"></i> Sent</h3><br>
+		<% if(sent.length == 0){ %>
+			<p>~ No messages ~</p>
+		<% }else{ %>
+			<div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% if(sentPage > 1){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= Number(sentPage) - 1 %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_sent.length / results_per_page); i++){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= i %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>"
+							<% if(i == sentPage){ %>
+								class="active"
+							<% } %>><%= i %></a>
+					<% }
+
+					if(sentPage < (all_sent.length / results_per_page)){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= Number(sentPage)+ 1 %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div><br>
+
+			<br><ul style="list-style-type:none;">
+				<% for(var message of sent){ %>
+					<a href="/messages/host/<%=currentUser._id%>/<%=apartment._id%>/<%=message._id%>">
+						<li>
+							<strong><%= message.recipient.username %>:</strong>&nbsp;&nbsp;&nbsp;
+							<%= message.subject %>
+							<h5 class="pull-right"><%= message.date %></h5>
+						</li>
+					</a>
+				<% } %>
+			</ul><br>
+
+			<br><div class="mail_pagination">
+				<h5 style="margin-top:-5%; margin-left:48%;">
+					<% if(sentPage > 1){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= Number(sentPage) - 1 %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&laquo;</a>
+					<% } %>
+
+					<% for(var i=1; i<=(all_sent.length / results_per_page); i++){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= i %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>"
+							<% if(i == sentPage){ %>
+								class="active"
+							<% } %>><%= i %></a>
+					<% }
+
+					if(sentPage < (all_sent.length / results_per_page)){ %>
+						<a href="/messages/host/pages/<%=Number(inboxPage)%>/<%= Number(sentPage)+ 1 %>?apartment=<%=str_apartment%>&inbox=<%=str_inbox%>&sent=<%=str_sent%>">&raquo;</a>
+					<% } %>
+				</h5>
+			</div>
+		<% } %>
+	</div>
+</div>
+
+
+<%- include("../../partials/footer") %>

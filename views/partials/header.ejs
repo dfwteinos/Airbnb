@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Airbnb</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet"
+href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+		
+		<!-- For OSM -->
+		
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   		integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   		crossorigin=""/>
+		
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   		integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   		crossorigin=""></script>
+		
+		<!-- For GeoCoding -->
+		
+		<script src="https://unpkg.com/esri-leaflet@2.5.0/dist/esri-leaflet.js"
+    	integrity="sha512-ucw7Grpc+iEQZa711gcjgMBnmd9qju1CICsRaryvX7HJklK0pGl/prxKvtHwpgm5ZHdvAil7YPxI1oWPOWK3UQ=="
+    	crossorigin=""></script>
+		
+		<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+    	integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+    	crossorigin="">
+		
+		<script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+    	integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+    	crossorigin=""></script>
+		
+		
+		<!-- For OSM -->
+		
+ 		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+		
+		<!-- For Star Rating -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	</head>
+	<body>
+	<!-- navbar=> bar above the header -->
+	<nav class="navbar navbar-default" id="navbarslide">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">Airbnb</a> 
+			</div>
+			<div class="collapse navbar-collapse" id="profile_image">
+				<ul class="nav navbar-nav navbar-right">
+					<!-- If currentUser is empty => no user is logged in -->
+	<!-- currentUser is passed from the app.js to the index.ejs(etc) => still header has access to it -->
+					<% if(!currentUser){ %>
+						<li> <a href="/login">Login</a> </li>
+						<li> <a href="/register">Sing Up</a> </li>
+					<% }else{ %>
+						<li> <a href="#"> Signed In As <%= currentUser.username %> </a> </li>
+						<li> <a href="/logout">Logout</a> </li>
+						<% if(currentUser.app_role.includes("admin") == false){ %>
+							<li><a href="/<%= currentUser._id %>/edit"> Edit Profile <i class="fa fa-user" aria-hidden="true"></i></a>
+							</li>
+						<% } %>
+						<li> <img src="<%= currentUser.picture.url %>" /> </li>
+					<% } %>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container">
+		<!-- if(error) checks if error is undefined or not (not just empty) -->
+		<% if(error && error.length > 0){ %>
+			<div class="alert alert-danger" role="alert" id="flash">
+				<%= error %>
+			</div>
+		<% } %>
+		<% if(success && success.length > 0){ %>
+			<div class="alert alert-success" role="alert" id="flash">
+				<%= success %>
+			</div>
+		<% } %>
+		<% if(warning && warning.length > 0){ %>
+			<div class="alert alert-warning" role="alert" id="flash">
+				<%= warning %>
+			</div>
+		<% } %>
+	</div>
+		
